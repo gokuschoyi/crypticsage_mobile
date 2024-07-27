@@ -1,9 +1,6 @@
-import { View, Text } from 'react-native'
+import * as Haptics from 'expo-haptics';
 import React from 'react'
-import {
-    TextInput,
-    TouchableOpacity
-} from 'react-native'
+import { View, Text, TextInput, Pressable } from 'react-native'
 import { useTheme } from '@/theme';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -22,6 +19,7 @@ const Signup = ({ handleAuthPageStates }: { handleAuthPageStates: (page: number)
     }
 
     const onSignUp = (type: SignUpType) => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
         console.log('Sign Up with', type);
     }
 
@@ -108,32 +106,44 @@ const Signup = ({ handleAuthPageStates }: { handleAuthPageStates: (page: number)
             </View>
 
             <View style={{ flexDirection: 'row', gap: 8, marginTop: 42 }}>
-                <TouchableOpacity
-                    style={{ backgroundColor: colors.background.nav, padding: 14, width: 100, alignItems: 'center', borderRadius: 8 }}
+                <Pressable
+                    style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed ? colors.background.paperOne : colors.background.nav,
+                        }, { padding: 14, width: 100, alignItems: 'center', borderRadius: 8 }
+                    ]}
                     onPress={() => onSignUp(SignUpType.Email)}>
                     <Text style={{ fontSize: 16, color: colors.primary.main, fontFamily: '500' }}>Signup</Text>
-                </TouchableOpacity>
+                </Pressable>
 
-                <TouchableOpacity
-                    style={{ backgroundColor: colors.background.nav, borderRadius: 8, width: 50, justifyContent: 'center', alignItems: 'center' }}
+                <Pressable
+                    style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed ? colors.background.paperOne : colors.background.nav,
+                        }, { borderRadius: 8, width: 50, justifyContent: 'center', alignItems: 'center' }
+                    ]}
                     onPress={() => onSignUp(SignUpType.Google)}
                 >
                     <Ionicons name="logo-google" size={34} color={colors.primary.main} />
-                </TouchableOpacity>
+                </Pressable>
 
-                <TouchableOpacity
-                    style={{ backgroundColor: colors.background.nav, borderRadius: 8, width: 50, justifyContent: 'center', alignItems: 'center' }}
+                <Pressable
+                    style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed ? colors.background.paperOne : colors.background.nav,
+                        }, { borderRadius: 8, width: 50, justifyContent: 'center', alignItems: 'center' }
+                    ]}
                     onPress={() => onSignUp(SignUpType.Facebook)}
                 >
                     <Ionicons name="logo-facebook" size={34} color={colors.primary.main} />
-                </TouchableOpacity>
+                </Pressable>
             </View>
 
             <View style={{ marginTop: 16, width: '90%', gap: 10, alignItems: 'center', }}>
                 <Text style={{ color: colors.primary.newWhite, fontSize: 16, fontFamily: '300' }}>Already have an Account?</Text>
-                <TouchableOpacity onPress={() => handleAuthPageStates(0)}>
+                <Pressable onPress={() => handleAuthPageStates(0)}>
                     <Text style={{ color: colors.primary.main, fontSize: 16, fontFamily: '300' }}>Login</Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </View>
     )

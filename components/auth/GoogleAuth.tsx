@@ -4,7 +4,7 @@ import {
     statusCodes,
 } from '@react-native-google-signin/google-signin';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native'
+import { Pressable } from 'react-native'
 
 import { useTheme } from '@/theme';
 type User = {}
@@ -12,7 +12,7 @@ export default function GoogleAuth() {
     const { colors } = useTheme();
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [userInfo, setUserInfo] = React.useState<User | null>(null);
-    
+
     React.useEffect(() => {
         GoogleSignin.configure({
             webClientId: process.env.EXPO_GOOGLE_OAUTH_CLIENT_ID,
@@ -27,8 +27,8 @@ export default function GoogleAuth() {
             setUserInfo(userInfo_);
             setLoggedIn(true);
         } catch (error: any) {
-            console.log(statusCodes);
-            console.log(JSON.stringify(error, null, 2));
+            // console.log(statusCodes);
+            // console.log(JSON.stringify(error, null, 2));
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
                 // user cancelled the login flow
             } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -53,7 +53,7 @@ export default function GoogleAuth() {
     };
 
     return (
-        <TouchableOpacity
+        <Pressable
             style={{
                 backgroundColor: colors.background.nav
                 , borderRadius: 8
@@ -64,6 +64,6 @@ export default function GoogleAuth() {
             onPress={loggedIn ? signOut : signIn}
         >
             <Ionicons name="logo-google" size={34} color={colors.primary.main} />
-        </TouchableOpacity>
+        </Pressable>
     )
 }

@@ -1,9 +1,7 @@
-import { View, Text } from 'react-native'
+import * as Haptics from 'expo-haptics';
 import React from 'react'
-import {
-    TextInput,
-    TouchableOpacity
-} from 'react-native'
+import { View, Text } from 'react-native'
+import { TextInput, Pressable } from 'react-native'
 import { useTheme } from '@/theme';
 
 const ForgotPassword = ({ handleAuthPageStates }: { handleAuthPageStates: (page: number) => void }) => {
@@ -15,6 +13,7 @@ const ForgotPassword = ({ handleAuthPageStates }: { handleAuthPageStates: (page:
     }
 
     const onForgotPasswordSubmit = () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
         console.log('Email:', email)
     }
 
@@ -40,17 +39,25 @@ const ForgotPassword = ({ handleAuthPageStates }: { handleAuthPageStates: (page:
             </View>
 
             <View style={{ flexDirection: 'row', gap: 8, marginTop: 42 }}>
-                <TouchableOpacity
-                    style={{ backgroundColor: colors.background.nav, padding: 14, width: 100, alignItems: 'center', borderRadius: 8 }}
+                <Pressable
+                    style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed ? colors.background.paperOne : colors.background.nav,
+                        }, { padding: 14, width: 100, alignItems: 'center', borderRadius: 8 }
+                    ]}
                     onPress={() => onForgotPasswordSubmit()}>
                     <Text style={{ fontSize: 16, color: colors.primary.main, fontFamily: '500' }}>Submit</Text>
-                </TouchableOpacity>
+                </Pressable>
 
-                <TouchableOpacity
-                    style={{ backgroundColor: colors.background.nav, padding: 14, width: 100, alignItems: 'center', borderRadius: 8 }}
+                <Pressable
+                    style={({ pressed }) => [
+                        {
+                            backgroundColor: pressed ? colors.background.paperOne : colors.background.nav,
+                        }, { padding: 14, width: 100, alignItems: 'center', borderRadius: 8 }
+                    ]}
                     onPress={() => handleAuthPageStates(0)}>
                     <Text style={{ fontSize: 16, color: colors.primary.main, fontFamily: '500' }}>Go Back</Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </View>
     )
