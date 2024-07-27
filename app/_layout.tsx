@@ -1,21 +1,28 @@
-// @ts-nocheck
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { Stack, useRouter } from 'expo-router';
+import { Slot, Stack, useRouter } from 'expo-router';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useEffect } from 'react';
 import { ThemeProvider } from '../theme';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { usePathname } from 'expo-router';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import store, { persistor } from '../store';
-import Toast from 'react-native-toast-message';
+import { View, ActivityIndicator } from 'react-native';
 import toastConfig from '@/components/notifications/customToastConfig';
+import ModalBackButton from '@/components/global/ModalBackButton';
+import Toast from 'react-native-toast-message';
+import store, { persistor } from '../store';
+
+import { useProtectedRoute } from '@/hooks/auth.guard';
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from 'expo-router';
 
+export const unstable_settings = {
+  // Ensure that reloading on `/modal` keeps a back button present.
+  initialRouteName: '(tabs)',
+};
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -34,9 +41,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  console.log('Pathname', usePathname())
-
-
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -48,26 +52,65 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  // if (!loaded) {
+  //   return <Slot />;
+  // }
+
   if (!loaded) {
-    return null;
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#000' }}>
+        <ActivityIndicator size="large" color='red' />
+      </View>
+    );
   }
 
-  return <RootLayoutNav />;
+  return (<RootLayoutNav />);
 }
 
 function RootLayoutNav() {
-  const router = useRouter();
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ThemeProvider>
-          <Stack>
-            <Stack.Screen name='authorization' options={{ headerShown: false }} />
-            <Stack.Screen name="(authenticated)/(tabs)" options={{ headerShown: false }} />
-          </Stack>
+          <App />
         </ThemeProvider>
         <Toast config={toastConfig} />
       </PersistGate>
-    </Provider>
+    </Provider >
   );
+}
+
+function App() {
+  const router = useRouter();
+  useProtectedRoute();
+  return (
+    <Stack>
+      <Stack.Screen name='index' options={{ headerShown: false }} />
+      <Stack.Screen name="(authenticated)/(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="(authenticated)/(modals)/account"
+        options={{
+          presentation: 'transparentModal',
+          animation: 'fade',
+          title: '',
+          headerTransparent: true,
+          headerLeft: () => (
+            <ModalBackButton />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="(authenticated)/(modals)/notifications"
+        options={{
+          presentation: 'transparentModal',
+          animation: 'fade',
+          title: '',
+          headerTransparent: true,
+          headerLeft: () => (
+            <ModalBackButton />
+          ),
+        }}
+      />
+    </Stack>
+  )
 }

@@ -1,9 +1,8 @@
-import { View, Text } from "react-native";
+import * as Haptics from 'expo-haptics';
 import React, { useRef, useEffect } from "react";
-import ParallaxStar from "@/components/auth/ParallaxStar";
-import { StyleSheet, Animated } from "react-native";
+import { View, Text, StyleSheet, Animated } from "react-native";
 import { useTheme } from '@/theme'
-
+import ParallaxStar from "@/components/auth/ParallaxStar";
 import Login from "@/components/auth/Login";
 import ForgotPassword from "@/components/auth/ForgotPassword";
 import Signup from "@/components/auth/Signup";
@@ -36,6 +35,7 @@ const Page = () => {
     };
 
     const handleAuthPageStates = (type: React.SetStateAction<number>) => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
         console.log('Navigating to', type);
         fadeOut(() => setAuthStateIndex(type));
         // setAuthStateIndex(type);
@@ -52,7 +52,7 @@ const Page = () => {
                 height: '100%',
                 position: 'absolute',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center',
             }}>
                 <Animated.View style={{
                     opacity: fadeAnim,

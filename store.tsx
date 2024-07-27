@@ -6,17 +6,23 @@ import thunk from 'redux-thunk';
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 import devToolsEnhancer from 'redux-devtools-expo-dev-plugin';
 
-import authSlice from './reduxSlice/authSlice';
+import authSlice from '@/reduxSlice/authSlice';
+import statsSlice from '@/reduxSlice/statsSlice';
+import intermediateModelSlice from '@/reduxSlice/intermediateModelSlice';
+import notificationsSlice from '@/reduxSlice/notificationsSlice';
 
 const reducer = combineReducers({
-    auth: authSlice
+    auth: authSlice,
+    stats: statsSlice,
+    intermediateModel: intermediateModelSlice,
+    notification: notificationsSlice
 })
 
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
     serialize: true,
-    version: 1,  // Update this number anytime changes are made to any of the redux slices. This will trigger the migration function below
+    version: 2,  // Update this number anytime changes are made to any of the redux slices. This will trigger the migration function below
     stateReconciler: autoMergeLevel2,
     migrate: (state: { _persist: { version: any; }; }, currentVersion: any) => {
         if (state && state._persist.version !== currentVersion) {
