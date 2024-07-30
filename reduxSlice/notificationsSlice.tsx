@@ -14,8 +14,16 @@ const notificationsSlice = createSlice({
             state.notifications.push(action.payload)
             state.notificationCount++
         },
+        markAsRead: (state, action) => {
+            state.notifications = state.notifications.map(notification => {
+                if (notification.toast_id === action.payload) {
+                    notification.seen = true
+                }
+                return notification
+            })
+        },
         removeNotification: (state, action) => {
-            state.notifications = state.notifications.filter(notification => notification.id !== action.payload)
+            state.notifications = state.notifications.filter(notification => notification.toast_id !== action.payload)
             state.notificationCount--
         },
         clearNotifications: (state) => {
@@ -29,6 +37,7 @@ const { reducer, actions } = notificationsSlice
 
 export const {
     addNotification
+    , markAsRead
     , removeNotification
     , clearNotifications
 } = actions

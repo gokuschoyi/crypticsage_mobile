@@ -94,9 +94,10 @@ function App() {
           animation: 'fade',
           title: '',
           headerTransparent: true,
-          headerLeft: () => (
+          headerRight: () => (
             <ModalBackButton />
           ),
+          headerLeft: () => (<></>)
         }}
       />
       <Stack.Screen
@@ -106,9 +107,10 @@ function App() {
           animation: 'fade',
           title: '',
           headerTransparent: true,
-          headerLeft: () => (
-            <ModalBackButton />
+          headerRight: () => (
+            <ModalBackButton type={'notification'} />
           ),
+          headerLeft: () => (<></>)
         }}
       />
     </Stack>

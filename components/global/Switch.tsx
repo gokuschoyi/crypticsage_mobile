@@ -12,7 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '@/theme';
 
 
-const Switch = (props: any) => {
+const Switch = (props: { label: string, value: boolean, onValueChange: (value: string) => void }) => {
     const { colors } = useTheme();
 
     const defaultStyles = {

@@ -17,7 +17,8 @@ const UserPreference = ({ preferences }: { preferences: { collapsedSidebar: bool
         }
     }
 
-    const handlePreferenceToggle = (preferenceType: keyof typeof userPreference) => {
+    const handlePreferenceToggle = (preferenceType: string) => {
+        // @ts-ignore
         setUserPreference({ ...userPreference, [preferenceType]: !userPreference[preferenceType] })
         if (preferenceType === 'theme') {
             changeTheme()

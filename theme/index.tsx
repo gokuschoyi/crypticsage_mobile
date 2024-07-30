@@ -2,29 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Appearance } from 'react-native';
 import { darkColors, lightColors } from './colors';
-
-export const toastColors = (colors) => {
-    return {
-        success: {
-            bg: colors.background.nav,
-            border: colors.success.main,
-            t1_color: colors.success.dark,
-            t2_color: colors.text.primary
-        },
-        error: {
-            bg: colors.background.nav,
-            border: colors.error.main,
-            t1_color: colors.error.dark,
-            t2_color: colors.text.primary
-        },
-        info: {
-            bg: colors.background.nav,
-            border: colors.info.main,
-            t1_color: colors.info.dark,
-            t2_color: colors.text.primary
-        }
-    }
-}
+import { toastColors } from '@/components/notifications/NotificationUtils';
 
 export const ThemeContext = React.createContext({
     isDark: false,

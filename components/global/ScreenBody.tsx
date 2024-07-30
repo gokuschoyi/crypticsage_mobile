@@ -6,7 +6,7 @@ import { useTheme } from '@/theme'
 const ScreenBody = (props) => {
     const { colors } = useTheme();
     return (
-        <View style={{ backgroundColor: colors.background.default, flex: 1 }}>
+        <View style={{ backgroundColor: colors.background.nav, flex: 1 }}>
             {props.children}
         </View>
     )
